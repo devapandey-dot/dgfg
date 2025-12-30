@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Check, ArrowRight, Loader2 } from "lucide-react";
+import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { subscriptionService, Plan } from "@/services/subscription.service";
 import { authService } from "@/services/auth.service";
+import DashboardLayout from "@/components/layouts/DashboardLayout";
+import Loader from "@/components/ui/loader";
 
 const Plans = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
@@ -318,18 +320,29 @@ const Plans = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading plans...</p>
+      <DashboardLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <Loader showText text="Loading plans..." size="lg" />
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-7xl mx-auto">
+    <DashboardLayout>
+      <div className="min-h-screen bg-gray-50 py-8 px-4">
+        <div className="max-w-7xl mx-auto">
+          {/* Back Button */}
+          <div className="mb-6">
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate("/dashboard")}
+              className="flex items-center gap-2 hover:bg-gray-200"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Dashboard
+            </Button>
+          </div>
         {/* Pricing Comparison Table */}
         {plans.length > 0 ? (
           <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-8">
@@ -372,7 +385,7 @@ const Plans = () => {
                     >
                       {processingPlanId === plan.id ? (
                         <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          <Loader size="sm" className="mr-2" />
                           Processing...
                         </>
                       ) : (
@@ -475,7 +488,8 @@ const Plans = () => {
         </div>
       </div>
     </div>
-  );
+  </DashboardLayout>
+);
 };
 
 export default Plans;

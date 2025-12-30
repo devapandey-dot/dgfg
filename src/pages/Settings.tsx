@@ -12,7 +12,8 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ChevronsUpDown, Check, UploadCloud, Loader2 } from "lucide-react";
+import { ChevronsUpDown, Check, UploadCloud, Globe, Clock, Layout } from "lucide-react";
+import Loader from "@/components/ui/loader";
 import { cn } from "@/lib/utils";
 import { COUNTRIES, TIMEZONES, getTimezoneCode, formatTimezoneLabel } from "@/constants/geo";
 import { tenantService } from "@/services/tenant.service";
@@ -103,7 +104,7 @@ const Settings = () => {
         <h1 className="text-2xl font-semibold mb-6">Tenant Settings</h1>
 
         {isLoading ? (
-          <div className="flex items-center gap-2 text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" /> Loading...</div>
+          <div className="flex items-center gap-2 text-muted-foreground"><Loader className="h-4 w-4" /> Loading...</div>
         ) : (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -194,7 +195,7 @@ const Settings = () => {
                     accept="image/*"
                     onChange={(e) => handleUploadLogo(e.target.files?.[0])}
                   />
-                  {logoUploading && <Loader2 className="h-4 w-4 animate-spin" />}
+                  {logoUploading && <Loader size="sm" />}
                 </div>
               </div>
             </div>
@@ -208,7 +209,7 @@ const Settings = () => {
                 setLogo(tenant?.logo || "");
               }}>Reset</Button>
               <Button onClick={handleSave} disabled={isSaving}>
-                {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <UploadCloud className="mr-2 h-4 w-4" />}
+                {isSaving ? <Loader className="mr-2 h-4 w-4" /> : <UploadCloud className="mr-2 h-4 w-4" />}
                 Save Settings
               </Button>
             </div>

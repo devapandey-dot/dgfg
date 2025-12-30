@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { mediaService, MediaAssetItem, MediaListResponse } from "@/services/media.service";
 import { uploadService } from "@/services/upload.service";
-import { Upload, Trash2, Image as ImageIcon, Search } from "lucide-react";
+import { Upload, Trash2, Image as ImageIcon, Search, Filter, ChevronDown } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const Media = () => {
@@ -112,25 +112,39 @@ const Media = () => {
           <div className="space-y-2">
             <Label>Sort by</Label>
             <Select value={sortBy} onValueChange={(v) => setSortBy(v)}>
-              <SelectTrigger>
-                <SelectValue />
+              <SelectTrigger 
+                className="h-10 px-4 rounded-xl border-gray-200 bg-white hover:bg-gray-50 hover:border-blue-400 hover:ring-4 hover:ring-blue-50 transition-all group justify-between shadow-sm"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Filter className="h-4.5 w-4.5 text-gray-500 group-hover:text-blue-500" />
+                  <span className="text-sm font-medium text-gray-600 group-hover:text-blue-600">
+                    <SelectValue />
+                  </span>
+                </div>
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="created_at">Created</SelectItem>
-                <SelectItem value="title">Title</SelectItem>
-                <SelectItem value="rights_expiry">Rights expiry</SelectItem>
+              <SelectContent className="rounded-xl shadow-lg border-gray-100 p-1">
+                <SelectItem value="created_at" className="rounded-lg">Created</SelectItem>
+                <SelectItem value="title" className="rounded-lg">Title</SelectItem>
+                <SelectItem value="rights_expiry" className="rounded-lg">Rights expiry</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
             <Label>Order</Label>
             <Select value={sortOrder} onValueChange={(v) => setSortOrder(v as any)}>
-              <SelectTrigger>
-                <SelectValue />
+              <SelectTrigger 
+                className="h-10 px-4 rounded-xl border-gray-200 bg-white hover:bg-gray-50 hover:border-blue-400 hover:ring-4 hover:ring-blue-50 transition-all group justify-between shadow-sm"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Filter className="h-4.5 w-4.5 text-gray-500 group-hover:text-blue-500" />
+                  <span className="text-sm font-medium text-gray-600 group-hover:text-blue-600">
+                    <SelectValue />
+                  </span>
+                </div>
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="DESC">DESC</SelectItem>
-                <SelectItem value="ASC">ASC</SelectItem>
+              <SelectContent className="rounded-xl shadow-lg border-gray-100 p-1">
+                <SelectItem value="DESC" className="rounded-lg">DESC</SelectItem>
+                <SelectItem value="ASC" className="rounded-lg">ASC</SelectItem>
               </SelectContent>
             </Select>
           </div>

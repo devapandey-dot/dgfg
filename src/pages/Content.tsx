@@ -19,7 +19,8 @@ import { userService } from "@/services/user.service";
 import { authService } from "@/services/auth.service";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, Search, Filter, Calendar, MessageSquare, Eye, Edit, Clock, Trash2, Reply } from "lucide-react";
+import { Search, Filter, Calendar, MessageSquare, Eye, Edit, Clock, Trash2, Reply, Instagram, Facebook, Linkedin, Twitter, Share2, ChevronDown, Network } from "lucide-react";
+import Loader from "@/components/ui/loader";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, MotionDialogContent } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -45,7 +46,33 @@ const statusBadgeClass: Record<Exclude<StatusTab, "all">, string> = {
   published: "bg-success/10 text-success border-success/20",
 };
 
-const PLATFORM_OPTIONS = ["all", "twitter", "facebook", "instagram", "linkedin", "bluesky"] as const;
+const PLATFORM_OPTIONS = ["all", "twitter", "facebook", "instagram", "linkedin", "bluesky", "pinterest", "threads", "tiktok", "youtube"] as const;
+
+const platformIcons: Record<string, React.ReactNode> = {
+  all: <Share2 className="h-4 w-4" />,
+  twitter: <Twitter className="h-4 w-4 text-[#1DA1F2]" />,
+  facebook: <Facebook className="h-4 w-4 text-[#1877F2]" />,
+  instagram: <Instagram className="h-4 w-4 text-[#E4405F]" />,
+  linkedin: <Linkedin className="h-4 w-4 text-[#0A66C2]" />,
+  bluesky: <span className="text-blue-500">🦋</span>,
+  pinterest: <span className="text-red-600 font-bold">P</span>,
+  threads: <span className="text-foreground">@</span>,
+  tiktok: <span className="text-foreground">T</span>,
+  youtube: <span className="text-red-600">▶</span>,
+};
+
+const PLATFORM_LABELS: Record<string, string> = {
+  all: "All Channels",
+  twitter: "Twitter / X",
+  facebook: "Facebook",
+  instagram: "Instagram",
+  linkedin: "Linkedin",
+  bluesky: "Bluesky",
+  pinterest: "Pinterest",
+  threads: "Threads",
+  tiktok: "TikTok",
+  youtube: "YouTube",
+};
 
 // Normalize various platform shapes to an array of lowercase strings.
 // Supports:
@@ -429,36 +456,45 @@ const Content = () => {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="space-y-5 max-w-[1600px] mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Approval Workflow</h1>
-            <p className="text-muted-foreground">{subtitleByTab[activeTab]}</p>
+            <h1 className="text-xl font-bold text-foreground">Approval Workflow</h1>
+            <p className="text-xs text-muted-foreground">{subtitleByTab[activeTab]}</p>
           </div>
         </div>
 
         {/* Filters row */}
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             <Input
               type="text"
               placeholder="Search posts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="pl-9 h-9 text-sm"
             />
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2.5">
             <Select value={platform} onValueChange={(v) => setPlatform(v as any)}>
-              <SelectTrigger className="w-44">
-                <SelectValue placeholder="Channels" />
+              <SelectTrigger 
+                className="h-9 px-3 rounded-xl border-gray-200 bg-white hover:bg-gray-50 hover:border-blue-400 hover:ring-4 hover:ring-blue-50 transition-all group w-40 justify-between shadow-sm text-sm"
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="text-sm font-medium text-gray-600 group-hover:text-blue-600">
+                    <SelectValue placeholder="Channels" />
+                  </span>
+                </div>
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="rounded-xl shadow-lg border-gray-100 p-1">
                 {PLATFORM_OPTIONS.map((p) => (
-                  <SelectItem key={p} value={p}>
-                    {p === "all" ? "All Channels" : p.charAt(0).toUpperCase() + p.slice(1)}
+                  <SelectItem key={p} value={p} className="rounded-lg">
+                    <div className="flex items-center gap-2">
+                      {platformIcons[p]}
+                      <span>{PLATFORM_LABELS[p]}</span>
+                    </div>
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -469,21 +505,34 @@ const Content = () => {
               setSortBy(by);
               setSortOrder(order.toUpperCase() as any);
             }}>
-              <SelectTrigger className="w-44">
-                <SelectValue placeholder="Sort" />
+              <SelectTrigger 
+                className="h-9 px-3 rounded-xl border-gray-200 bg-white hover:bg-gray-50 hover:border-blue-400 hover:ring-4 hover:ring-blue-50 transition-all group w-40 justify-between shadow-sm text-sm"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Filter className="h-4 w-4 text-gray-500 group-hover:text-blue-500" />
+                  <span className="text-sm font-medium text-gray-600 group-hover:text-blue-600">
+                    <SelectValue placeholder="Sort" />
+                  </span>
+                </div>
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="created_at:DESC">Newest</SelectItem>
-                <SelectItem value="created_at:ASC">Oldest</SelectItem>
-                <SelectItem value="post_name:ASC">Title A–Z</SelectItem>
-                <SelectItem value="post_name:DESC">Title Z–A</SelectItem>
-                <SelectItem value="scheduled_time:ASC">Schedule ↑</SelectItem>
-                <SelectItem value="scheduled_time:DESC">Schedule ↓</SelectItem>
+              <SelectContent className="rounded-xl shadow-lg border-gray-100 p-1">
+                <SelectItem value="created_at:DESC" className="rounded-lg text-sm">Newest</SelectItem>
+                <SelectItem value="created_at:ASC" className="rounded-lg text-sm">Oldest</SelectItem>
+                <SelectItem value="post_name:ASC" className="rounded-lg text-sm">Title A–Z</SelectItem>
+                <SelectItem value="post_name:DESC" className="rounded-lg text-sm">Title Z–A</SelectItem>
+                <SelectItem value="scheduled_time:ASC" className="rounded-lg text-sm">Schedule ↑</SelectItem>
+                <SelectItem value="scheduled_time:DESC" className="rounded-lg text-sm">Schedule ↓</SelectItem>
               </SelectContent>
             </Select>
 
-            <Button variant="outline" size="icon" onClick={() => refetch()} aria-label="Apply filters">
-              <Filter className="h-4 w-4" />
+            <Button 
+              variant="outline" 
+              size="icon" 
+              onClick={() => refetch()} 
+              aria-label="Apply filters"
+              className="h-9 w-9 rounded-xl border-gray-200 hover:bg-gray-50 hover:border-blue-400 hover:ring-4 hover:ring-blue-50 transition-all shadow-sm"
+            >
+              <Filter className="h-3.5 w-3.5 text-gray-500" />
             </Button>
           </div>
         </div>
@@ -509,8 +558,7 @@ const Content = () => {
         <div className="bg-background rounded-xl border border-border shadow-card p-2">
           {isLoading ? (
             <div className="p-12 text-center text-muted-foreground">
-              <Loader2 className="mx-auto h-6 w-6 animate-spin" />
-              <p className="mt-2 text-sm">Loading posts…</p>
+              <Loader showText text="Loading posts…" />
             </div>
           ) : isError ? (
             <div className="p-12 text-center text-destructive">
@@ -641,7 +689,7 @@ const Content = () => {
                               className="bg-amber-500 hover:bg-amber-600 text-white"
                             >
                               {sendingId === (post.post_id ?? post.id) ? (
-                                <span className="flex items-center"><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending…</span>
+                                <span className="flex items-center"><Loader size="sm" className="mr-2" /> Sending…</span>
                               ) : (
                                 'Send for Approval'
                               )}
@@ -794,7 +842,7 @@ const Content = () => {
               <Button variant="outline" onClick={() => setDecisionOpen(false)} disabled={decisionLoading}>Cancel</Button>
               <Button onClick={confirmDecision} disabled={decisionLoading}>
                 {decisionLoading ? (
-                  <span className="flex items-center"><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Processing…</span>
+                  <span className="flex items-center"><Loader size="sm" className="mr-2" /> Processing…</span>
                 ) : (
                   decisionType === "approve" ? "Confirm Approve" : decisionType === "reject" ? "Confirm Reject" : "Confirm"
                 )}
@@ -988,7 +1036,7 @@ function CommentsPanel({
               </div>
               <div className="ml-auto flex items-center gap-2">
                 <Button variant="outline" size="sm" onClick={() => { setMessage(""); setMentions([]); setReplyTo(null); }}>Cancel</Button>
-                <Button size="sm" onClick={handleSend} disabled={submitting || !message.trim()}>{submitting ? <span className="flex items-center"><Loader2 className="h-4 w-4 mr-2 animate-spin" />Sending…</span> : "Send"}</Button>
+                <Button size="sm" onClick={handleSend} disabled={submitting || !message.trim()}>{submitting ? <span className="flex items-center"><Loader size="sm" className="mr-2" />Sending…</span> : "Send"}</Button>
               </div>
             </div>
           </div>
@@ -1006,7 +1054,9 @@ function CommentsPanel({
       </div>
       <ScrollArea className="h-[320px] border rounded-md p-3 bg-muted/20">
         {isLoading ? (
-          <div className="py-10 text-center text-muted-foreground text-sm">Loading comments…</div>
+          <div className="py-10 text-center text-muted-foreground text-sm">
+            <Loader showText text="Loading comments…" />
+          </div>
         ) : isError ? (
           <div className="py-10 text-center text-destructive text-sm">Failed to load comments.</div>
         ) : comments.length === 0 ? (
@@ -1061,7 +1111,7 @@ function CommentsPanel({
           <div className="ml-auto flex items-center gap-2">
             <Button variant="outline" onClick={() => { setMessage(""); setMentions([]); }}>Clear</Button>
             <Button onClick={handleSend} disabled={submitting || !message.trim()}>
-              {submitting ? <span className="flex items-center"><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending…</span> : "Send"}
+              {submitting ? <span className="flex items-center"><Loader size="sm" className="mr-2" /> Sending…</span> : "Send"}
             </Button>
           </div>
         </div>

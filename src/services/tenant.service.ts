@@ -28,4 +28,23 @@ export const tenantService = {
       };
     }
   },
+
+  createSubtenant: async (data: {
+    name: string;
+    domain: string;
+    timezone: string;
+    admin_email: string;
+    admin_name: string;
+    admin_password?: string;
+  }): Promise<ApiResponse<any>> => {
+    try {
+      const response = await api.post<ApiResponse<any>>('/tenants/subtenant', data);
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to create sub-tenant',
+      };
+    }
+  },
 };

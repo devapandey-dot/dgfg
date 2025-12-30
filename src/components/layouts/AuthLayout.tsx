@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import authGradientWave from "@/assets/auth-gradient-wave.png";
 import Logo from "@/components/Logo";
+import AuthCarousel from "@/components/auth/AuthCarousel";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -8,28 +9,25 @@ interface AuthLayoutProps {
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
-    <div className="min-h-screen flex">
+    <div className="h-screen flex overflow-hidden bg-background">
       {/* Left side - Form */}
-      <div className="flex-1 flex flex-col p-8 lg:p-12">
-        <div className="mb-8">
+      <div className="w-full lg:w-[50%] flex flex-col p-4 lg:p-6 overflow-hidden relative">
+        <div className="z-10 mb-2 shrink-0">
           <Logo />
         </div>
         
-        <div className="flex-1 flex items-center justify-center">
-          <div className="w-full max-w-md animate-slide-up">
+        <div className="flex-1 flex items-center justify-center py-2">
+          <div className="w-full max-w-[350px] animate-slide-up">
             {children}
           </div>
         </div>
       </div>
 
-      {/* Right side - Gradient wave image */}
-      <div className="hidden lg:flex lg:w-1/2 xl:w-[45%] relative overflow-hidden">
-        <img
-          src={authGradientWave}
-          alt="Decorative gradient"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
+      {/* Right side - Image Carousel container */}
+      <div className="hidden lg:block lg:w-[50%] sticky top-0 h-screen p-2">
+        <div className="h-full w-full rounded-2xl overflow-hidden relative">
+          <AuthCarousel />
+        </div>
       </div>
     </div>
   );

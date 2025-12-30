@@ -5,7 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { subscriptionService, Plan } from "@/services/subscription.service";
 import { authService } from "@/services/auth.service";
-import { Loader2, Crown, ArrowRight } from "lucide-react";
+import { Crown, ArrowRight } from "lucide-react";
+import Loader from "@/components/ui/loader";
 
 interface UsageData {
   storageUsedMb?: number;
@@ -121,8 +122,8 @@ const PlanUsage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader showText text="Loading plan usage..." size="lg" />
       </div>
     );
   }
@@ -160,7 +161,7 @@ const PlanUsage = () => {
           <Button asChild size="sm" className="bg-yellow-400 hover:bg-yellow-300 text-black">
             <Link to="/billing/upgrade">Upgrade Plan</Link>
           </Button>
-          <Button asChild size="sm" variant="outline" className="border-white/40 text-white hover:bg-white/10">
+          <Button asChild size="sm" variant="outline" className="bg-transparent border-white/40 text-white hover:bg-white/10 hover:text-white hover:border-white">
             <Link to="/billing/payments">Manage Plan</Link>
           </Button>
         </div>

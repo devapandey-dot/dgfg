@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { subscriptionService, Plan } from "@/services/subscription.service";
-import { Loader2 } from "lucide-react";
+import Loader from "@/components/ui/loader";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -39,7 +39,7 @@ const UpgradeDowngrade = () => {
 
       {loading ? (
         <div className="flex items-center justify-center py-14">
-          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          <Loader showText text="Loading plans..." />
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

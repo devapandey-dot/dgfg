@@ -3,8 +3,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { subscriptionService } from "@/services/subscription.service";
 import { authService } from "@/services/auth.service";
-import { CheckCircle, Loader2 } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Loader from "@/components/ui/loader";
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
@@ -112,10 +113,10 @@ const PaymentSuccess = () => {
   if (isProcessing) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-2">Processing your payment...</h2>
-          <p className="text-muted-foreground">Please wait while we activate your subscription.</p>
+        <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center">
+          <div className="space-y-4">
+            <Loader showText text="Processing your payment..." size="lg" />
+          </div>
         </div>
       </div>
     );

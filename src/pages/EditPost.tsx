@@ -8,7 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { postsService, PostItem } from "@/services/posts.service";
 import { socialService } from "@/services/social.service";
-import { Loader2, Calendar, ArrowLeft, Edit as EditIcon } from "lucide-react";
+import { Calendar, ArrowLeft, Edit as EditIcon } from "lucide-react";
+import Loader from "@/components/ui/loader";
 
 const platformNameFromEntry = (entry: any): string => {
   if (!entry) return "";
@@ -87,7 +88,9 @@ const EditPost = () => {
         </div>
 
         {loading ? (
-          <div className="flex items-center justify-center h-48 text-muted-foreground"><Loader2 className="h-5 w-5 animate-spin" /></div>
+          <div className="flex items-center justify-center h-48">
+            <Loader showText text="Loading post..." />
+          </div>
         ) : post ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Preview column */}

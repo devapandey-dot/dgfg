@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { Check, ArrowRight, User, Users, Share2, PartyPopper } from "lucide-react";
+import { Check, ArrowRight, User, Users, Share2, PartyPopper, Instagram, Facebook, Linkedin, Twitter, Pin, Music2, Youtube, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const steps = [
@@ -15,12 +15,11 @@ const steps = [
 ];
 
 const socialPlatforms = [
-  { id: "linkedin", name: "LinkedIn", icon: "in", color: "bg-[#0A66C2]" },
-  { id: "facebook", name: "Facebook", icon: "f", color: "bg-[#1877F2]" },
-  { id: "instagram", name: "Instagram", icon: "📷", color: "bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737]" },
-  { id: "twitter", name: "Twitter/X", icon: "𝕏", color: "bg-foreground" },
-  { id: "threads", name: "Threads", icon: "@", color: "bg-foreground" },
-  { id: "pinterest", name: "Pinterest", icon: "P", color: "bg-[#E60023]" },
+  { id: "facebook", name: "Facebook", icon: Facebook, color: "bg-[#1877F2]" },
+  { id: "twitter", name: "Twitter/X", icon: Twitter, color: "bg-black" },
+  { id: "instagram", name: "Instagram", icon: Instagram, color: "bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737]" },
+  { id: "linkedin", name: "LinkedIn", icon: Linkedin, color: "bg-[#0A66C2]" },
+  { id: "pinterest", name: "Pinterest", icon: Pin, color: "bg-[#E60023]" },
 ];
 
 const Onboarding = () => {
@@ -207,31 +206,33 @@ const Onboarding = () => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-5 gap-3">
                 {socialPlatforms.map((platform) => (
                   <button
                     key={platform.id}
                     onClick={() => togglePlatform(platform.id)}
                     className={cn(
-                      "flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all",
+                      "flex flex-col items-center justify-center gap-1.5 p-3 rounded-lg border-2 transition-all bg-white shadow-sm",
                       connectedPlatforms.includes(platform.id)
-                        ? "border-primary bg-primary/5"
-                        : "border-border hover:border-primary/50 hover:bg-muted/30"
+                        ? "border-primary ring-2 ring-primary/10 scale-105"
+                        : "border-gray-50 hover:border-gray-200"
                     )}
                   >
                     <div
                       className={cn(
-                        "w-12 h-12 rounded-full flex items-center justify-center text-primary-foreground text-lg font-bold",
+                        "w-10 h-10 rounded-full flex items-center justify-center shadow-sm",
                         platform.color
                       )}
                     >
-                      {platform.icon}
+                      <platform.icon className="h-5 w-5 text-white" />
                     </div>
-                    <span className="text-xs font-medium text-foreground">
+                    <span className="text-[10px] font-semibold text-foreground">
                       {platform.name}
                     </span>
                     {connectedPlatforms.includes(platform.id) && (
-                      <Check className="h-4 w-4 text-primary" />
+                      <div className="absolute top-1 right-1">
+                        <Check className="h-3 w-3 text-primary bg-white rounded-full p-0.5 shadow-sm border border-primary/20" />
+                      </div>
                     )}
                   </button>
                 ))}

@@ -1,9 +1,9 @@
+/* Ranblitz Design System - Import fonts first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Ranblitz Design System */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
@@ -179,6 +179,36 @@
 }
 
 @layer utilities {
+  /* Hide scrollbar but keep scrollability */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+  /* Sweet, stylish scrollbars (Firefox + WebKit) */
+  .rb-scroll {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: hsl(var(--primary) / 0.45) hsl(var(--muted));
+  }
+  .rb-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .rb-scroll::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 9999px;
+  }
+  .rb-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, hsl(var(--primary) / 0.55), hsl(var(--accent-foreground) / 0.55));
+    border-radius: 9999px;
+    border: 2px solid hsl(var(--muted));
+  }
+  .rb-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, hsl(var(--primary) / 0.75), hsl(var(--accent-foreground) / 0.75));
+  }
+
   /* Animations */
   .animate-fade-in {
     animation: fadeIn 0.3s ease-out;
