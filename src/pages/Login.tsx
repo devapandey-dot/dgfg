@@ -175,21 +175,21 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      <div className="space-y-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="space-y-1.5 animate-in fade-in slide-in-from-bottom-4 duration-700">
         <div className="space-y-0 text-center lg:text-left">
-          <h1 className="text-xl font-extrabold tracking-tight text-foreground bg-clip-text">
+          <h1 className="text-lg font-extrabold tracking-tight text-foreground bg-clip-text">
             Welcome back
           </h1>
-          <p className="text-[10px] text-muted-foreground max-w-[320px] lg:max-w-none mx-auto lg:mx-0">
+          <p className="text-[9px] text-muted-foreground max-w-[320px] lg:max-w-none mx-auto lg:mx-0">
             Log in to manage your automated social presence
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-1.5">
+        <div className="grid grid-cols-1 gap-1">
           <Button
             variant="outline"
             size="default"
-            className="w-full h-8 text-[10px] font-medium border-border/60 hover:bg-accent/50 hover:border-primary/30 transition-all duration-300 shadow-sm group"
+            className="w-full h-7 text-[9px] font-medium border-border/60 hover:bg-accent/50 hover:border-primary/30 transition-all duration-300 shadow-sm group"
             onClick={() => authService.googleAuth()}
           >
             <svg className="w-2.5 h-2.5 mr-2 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
@@ -218,48 +218,48 @@ const Login = () => {
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t border-border/40" />
           </div>
-          <div className="relative flex justify-center text-[7px] uppercase">
+          <div className="relative flex justify-center text-[6px] uppercase">
             <span className="bg-background px-4 text-muted-foreground/50 font-bold tracking-widest">or continue with email</span>
           </div>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-2">
-          <div className="space-y-1">
-            <Label htmlFor="email" className="text-[10px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Email Address</Label>
+        <form onSubmit={handleLogin} className="space-y-1.5">
+          <div className="space-y-0.5">
+            <Label htmlFor="email" className="text-[9px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Email Address</Label>
             <div className="relative group">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
               <Input
                 id="email"
                 type="email"
                 placeholder="jane.contractor@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-9 h-9 text-xs bg-accent/5 border-border/50 focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all shadow-sm rounded-lg"
+                className="pl-9 h-8 text-xs bg-accent/5 border-border/50 focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all shadow-sm rounded-lg"
                 required
                 disabled={isLoading}
               />
             </div>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             <div className="flex items-center justify-between ml-1">
-              <Label htmlFor="password" className="text-[10px] font-bold text-foreground/80 uppercase tracking-wider">Password</Label>
+              <Label htmlFor="password" className="text-[9px] font-bold text-foreground/80 uppercase tracking-wider">Password</Label>
               <Link
                 to="/forgot-password"
-                className="text-[9px] text-primary hover:text-primary/80 transition-colors font-bold uppercase tracking-wide underline-offset-4 hover:underline"
+                className="text-[8px] text-primary hover:text-primary/80 transition-colors font-bold uppercase tracking-wide underline-offset-4 hover:underline"
               >
-                Forgot password?
+                Forgot?
               </Link>
             </div>
             <div className="relative group">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="pl-9 pr-9 h-9 text-xs bg-accent/5 border-border/50 focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all shadow-sm rounded-lg"
+                className="pl-9 pr-9 h-8 text-xs bg-accent/5 border-border/50 focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all shadow-sm rounded-lg"
                 required
                 disabled={isLoading}
               />
@@ -268,23 +268,37 @@ const Login = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/40 hover:text-primary transition-colors focus:outline-none"
               >
-                {showPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                {showPassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
               </button>
             </div>
           </div>
 
+          <div className="flex items-center space-x-2 px-1">
+            <Checkbox
+              id="remember"
+              checked={rememberMe}
+              onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+              className="h-3.5 w-3.5 border-border/50 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+            />
+            <label
+              htmlFor="remember"
+              className="text-[9px] font-medium text-muted-foreground cursor-pointer select-none"
+            >
+              Remember me for 30 days
+            </label>
+          </div>
 
-          <Button type="submit" className="w-full h-9 text-xs font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 active:scale-[0.98] transition-all duration-200 mt-1 rounded-lg bg-primary hover:bg-primary/90" disabled={isLoading}>
+          <Button type="submit" className="w-full h-8 text-xs font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 active:scale-[0.98] transition-all duration-200 mt-0.5 rounded-lg bg-primary hover:bg-primary/90" disabled={isLoading}>
             {isLoading ? (
               <div className="flex items-center gap-2">
                 <Loader size="sm" />
                 <span>Logging in...</span>
               </div>
-            ) : "Log In"}
+            ) : "Login to Account"}
           </Button>
         </form>
 
-        <p className="text-center text-[11px] text-muted-foreground pt-1">
+        <p className="text-center text-[10px] text-muted-foreground pt-0.5">
           Don't have an account?{" "}
           <Link to="/signup" className="text-primary hover:text-primary/80 transition-colors font-bold underline-offset-4 hover:underline">
             Sign up

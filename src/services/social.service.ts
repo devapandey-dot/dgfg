@@ -41,8 +41,11 @@ export interface SocialPostResponse {
 export const socialService = {
   getProfiles: async (): Promise<ApiResponse<SocialProfile[]>> => {
     try {
-      const response = await api.get<ApiResponse<SocialProfile[]>>('/social/profiles');
-      return response.data;
+      const response = await api.get<any>('/social/profiles');
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -53,10 +56,13 @@ export const socialService = {
 
   getAccounts: async (params?: { late_profile_id?: string; platform?: string; is_active?: boolean }): Promise<ApiResponse<SocialAccount[]>> => {
     try {
-      const response = await api.get<ApiResponse<SocialAccount[]>>('/social/accounts', {
+      const response = await api.get<any>('/social/accounts', {
         params: { ...params, _: Date.now() }
       });
-      return response.data;
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -67,8 +73,11 @@ export const socialService = {
 
   getProfileAccounts: async (profileId: string): Promise<ApiResponse<SocialAccount[]>> => {
     try {
-      const response = await api.get<ApiResponse<SocialAccount[]>>(`/social/profiles/${profileId}/accounts`);
-      return response.data;
+      const response = await api.get<any>(`/social/profiles/${profileId}/accounts`);
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -82,8 +91,11 @@ export const socialService = {
     params: { profileId: string; redirect_url: string; headless?: boolean | string }
   ): Promise<ApiResponse<{ authUrl: string; state?: string }>> => {
     try {
-      const response = await api.get<ApiResponse<{ authUrl: string; state?: string }>>(`/social/connect/${platform}`, { params });
-      return response.data;
+      const response = await api.get<any>(`/social/connect/${platform}`, { params });
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -94,12 +106,27 @@ export const socialService = {
 
   scheduleOrPublish: async (payload: SocialPostRequest): Promise<ApiResponse<SocialPostResponse>> => {
     try {
-      const response = await api.post<ApiResponse<SocialPostResponse>>('/social/posts', payload);
-      return response.data;
+      const response = await api.post<any>('/social/posts', payload);
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
-        error: error.response?.data?.error || 'Failed to schedule or publish post',
+        error: error.response?.data?.error || 'Failed to perform social post action',
+      };
+    }
+  },
+
+  deleteAccount: async (accountId: number | string): Promise<ApiResponse> => {
+    try {
+      await api.delete(`/social/accounts/${accountId}`);
+      return { success: true };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Failed to delete social account',
       };
     }
   },

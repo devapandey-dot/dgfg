@@ -43,7 +43,7 @@ const Settings = () => {
       const meRes = await userService.me();
       if (!meRes.success || !meRes.data?.user?.tenant_id) {
         setIsLoading(false);
-        toast({ title: "Unable to load tenant", description: meRes.error || "No tenant associated." });
+        toast({ title: "Unable to load tenant", description: meRes.error || "No tenant associated.", variant: "destructive" });
         return;
       }
       const id = meRes.data.user.tenant_id;
@@ -51,7 +51,7 @@ const Settings = () => {
       const tRes = await tenantService.get(id);
       if (!tRes.success || !tRes.data) {
         setIsLoading(false);
-        toast({ title: "Unable to load tenant", description: tRes.error || "Unknown error" });
+        toast({ title: "Unable to load tenant", description: tRes.error || "Unknown error", variant: "destructive" });
         return;
       }
       const t = tRes.data;
@@ -75,7 +75,7 @@ const Settings = () => {
       setLogo(res.data.url);
       toast({ title: "Logo uploaded" });
     } else {
-      toast({ title: "Upload failed", description: res.error || "Please try again." });
+      toast({ title: "Upload failed", description: res.error || "Please try again.", variant: "destructive" });
     }
   };
 
@@ -94,7 +94,7 @@ const Settings = () => {
       setTenant(res.data);
       toast({ title: "Settings saved" });
     } else {
-      toast({ title: "Save failed", description: res.error || "Please review your inputs." });
+      toast({ title: "Save failed", description: res.error || "Please review your inputs.", variant: "destructive" });
     }
   };
 
@@ -104,7 +104,9 @@ const Settings = () => {
         <h1 className="text-2xl font-semibold mb-6">Tenant Settings</h1>
 
         {isLoading ? (
-          <div className="flex items-center gap-2 text-muted-foreground"><Loader className="h-4 w-4" /> Loading...</div>
+          <div className="flex flex-col items-center justify-center min-h-[400px]">
+            <Loader showText text="Loading tenant settings..." size="lg" />
+          </div>
         ) : (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

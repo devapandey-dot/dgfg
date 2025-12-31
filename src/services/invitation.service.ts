@@ -50,8 +50,12 @@ export const invitationService = {
 
   resend: async (id: number): Promise<ApiResponse<{ message?: string }>> => {
     try {
-      const response = await api.post<ApiResponse<{ message?: string }>>(`/invitations/${id}/resend`);
-      return response.data;
+      const response = await api.post<any>(`/invitations/${id}/resend`);
+      return {
+        success: true,
+        data: response.data,
+        message: response.data.message
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -62,8 +66,12 @@ export const invitationService = {
 
   cancel: async (id: number): Promise<ApiResponse<{ message?: string }>> => {
     try {
-      const response = await api.delete<ApiResponse<{ message?: string }>>(`/invitations/${id}`);
-      return response.data;
+      const response = await api.delete<any>(`/invitations/${id}`);
+      return {
+        success: true,
+        data: response.data,
+        message: response.data.message
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -80,8 +88,11 @@ export const invitationService = {
     expires_at?: string 
   }>> => {
     try {
-      const response = await api.get<ApiResponse<any>>(`/auth/invitation/verify/${token}`);
-      return response.data;
+      const response = await api.get<any>(`/auth/invitation/verify/${token}`);
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -99,8 +110,11 @@ export const invitationService = {
     refreshToken: string 
   }>> => {
     try {
-      const response = await api.post<ApiResponse<any>>(`/auth/invitation/accept/${token}`, payload);
-      return response.data;
+      const response = await api.post<any>(`/auth/invitation/accept/${token}`, payload);
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,

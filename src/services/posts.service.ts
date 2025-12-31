@@ -88,8 +88,11 @@ export const postsService = {
     payload: Record<string, any> = {}
   ): Promise<ApiResponse<{ post?: PostItem }>> => {
     try {
-      const response = await api.post<ApiResponse<{ post?: PostItem }>>(`/posts/${postId}/action`, { action, payload });
-      return response.data;
+      const response = await api.post<any>(`/posts/${postId}/action`, { action, payload });
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,

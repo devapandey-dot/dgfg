@@ -11,12 +11,12 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
     <div className="h-screen flex overflow-hidden bg-background">
       {/* Left side - Form */}
-      <div className="w-full lg:w-[50%] flex flex-col p-4 lg:p-6 overflow-hidden relative">
-        <div className="z-10 mb-2 shrink-0">
+      <div className="w-full lg:w-[50%] flex flex-col p-3 lg:p-5 overflow-hidden relative">
+        <div className="z-10 mb-1 shrink-0">
           <Logo />
         </div>
         
-        <div className="flex-1 flex items-center justify-center py-2">
+        <div className="flex-1 flex items-center justify-center py-0">
           <div className="w-full max-w-[350px] animate-slide-up">
             {children}
           </div>

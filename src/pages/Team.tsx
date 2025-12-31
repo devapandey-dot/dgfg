@@ -130,7 +130,7 @@ const Team = () => {
       }
       toast({ title: "Invitation sent", description: `Invite sent to ${email}` });
       setInviteOpen(false);
-      usersQuery.refetch();
+      invitationsQuery.refetch();
     } catch (error) {
       toast({ title: "Error", description: error instanceof Error ? error.message : "Unexpected error", variant: "destructive" });
     } finally {
@@ -261,6 +261,7 @@ const Team = () => {
       }
       toast({ title: "User removed", description: "User has been deactivated" });
       usersQuery.refetch();
+      invitationsQuery.refetch();
     } catch (e) {
       toast({ title: "Error", description: e instanceof Error ? e.message : "Unexpected error", variant: "destructive" });
     }
@@ -380,7 +381,7 @@ const Team = () => {
                           </td>
                           <td className="p-4 text-muted-foreground font-medium">{formatDate(u.created_at)}</td>
                           <td className="p-4 text-right">
-                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="flex justify-end gap-2 transition-opacity">
                               <Button variant="ghost" size="sm" className="h-8 rounded-lg hover:bg-primary/10 hover:text-primary font-bold text-[11px] uppercase tracking-wider" onClick={() => openEditRole(u.id, u.role_id)}>Role</Button>
                               <Button variant="ghost" size="sm" className="h-8 rounded-lg hover:bg-primary/10 hover:text-primary font-bold text-[11px] uppercase tracking-wider" onClick={() => openPermissions(u.id)}>Perms</Button>
                               <Button variant="ghost" size="sm" className="h-8 rounded-lg text-destructive hover:text-destructive hover:bg-destructive/10 font-bold text-[11px] uppercase tracking-wider" onClick={() => removeUser(u.id)}>Remove</Button>

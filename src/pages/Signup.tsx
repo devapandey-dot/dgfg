@@ -75,21 +75,21 @@ const Signup = () => {
 
   return (
     <AuthLayout>
-      <div className="space-y-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="space-y-1.5 animate-in fade-in slide-in-from-bottom-4 duration-700">
         <div className="space-y-0 text-center lg:text-left">
-          <h1 className="text-xl font-extrabold tracking-tight text-foreground bg-clip-text">
+          <h1 className="text-lg font-extrabold tracking-tight text-foreground bg-clip-text">
             Create your account
           </h1>
-          <p className="text-[10px] text-muted-foreground max-w-[320px] lg:max-w-none mx-auto lg:mx-0">
+          <p className="text-[9px] text-muted-foreground max-w-[320px] lg:max-w-none mx-auto lg:mx-0">
             Join Ranblitz and start automating your social presence today
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-1.5">
+        <div className="grid grid-cols-1 gap-1">
           <Button
             variant="outline"
             size="default"
-            className="w-full h-8 text-[10px] font-medium border-border/60 hover:bg-accent/50 hover:border-primary/30 transition-all duration-300 shadow-sm group"
+            className="w-full h-7 text-[9px] font-medium border-border/60 hover:bg-accent/50 hover:border-primary/30 transition-all duration-300 shadow-sm group"
             onClick={handleGoogleSignup}
           >
             <svg className="w-2.5 h-2.5 mr-2 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
@@ -106,67 +106,83 @@ const Signup = () => {
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t border-border/40" />
           </div>
-          <div className="relative flex justify-center text-[7px] uppercase">
+          <div className="relative flex justify-center text-[6px] uppercase">
             <span className="bg-background px-4 text-muted-foreground/50 font-bold tracking-widest">or continue with email</span>
           </div>
         </div>
 
-        <form onSubmit={handleSignup} className="space-y-2">
-          <div className="space-y-1">
-            <Label htmlFor="name" className="text-[10px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Full Name</Label>
+        <form onSubmit={handleSignup} className="space-y-1.5">
+          <div className="space-y-0.5">
+            <Label htmlFor="name" className="text-[9px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Full Name</Label>
             <div className="relative group">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
               <Input
                 id="name"
                 type="text"
                 placeholder="Jonas Khanwald"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="pl-9 h-9 text-xs bg-accent/5 border-border/50 focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all shadow-sm rounded-lg"
+                className="pl-9 h-8 text-xs bg-accent/5 border-border/50 focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all shadow-sm rounded-lg"
                 required
                 disabled={isLoading}
               />
             </div>
           </div>
 
-          <div className="space-y-1">
-            <Label htmlFor="email" className="text-[10px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Email Address</Label>
+          <div className="space-y-0.5">
+            <Label htmlFor="email" className="text-[9px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Email Address</Label>
             <div className="relative group">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
               <Input
                 id="email"
                 type="email"
                 placeholder="jonas.kahnwald@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-9 h-9 text-xs bg-accent/5 border-border/50 focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all shadow-sm rounded-lg"
+                className="pl-9 h-8 text-xs bg-accent/5 border-border/50 focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all shadow-sm rounded-lg"
                 required
                 disabled={isLoading}
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1">
-              <Label className="text-[10px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Country</Label>
+          <div className="space-y-0.5">
+            <Label htmlFor="organizationName" className="text-[9px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Organization name (Optional)</Label>
+            <div className="relative group">
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
+              <Input
+                id="organizationName"
+                type="text"
+                placeholder="Ranblitz"
+                value={organizationName}
+                onChange={(e) => setOrganizationName(e.target.value)}
+                className="pl-9 h-8 text-xs bg-accent/5 border-border/50 focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all shadow-sm rounded-lg"
+                disabled={isLoading}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-0.5">
+              <Label className="text-[9px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Country</Label>
               <Popover open={countryOpen} onOpenChange={setCountryOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     role="combobox"
                     aria-expanded={countryOpen}
-                    className="w-full h-9 justify-between text-xs px-3 font-normal bg-accent/5 border-border/50 shadow-sm hover:bg-accent/10 transition-all rounded-lg"
+                    className="w-full h-8 justify-between text-[11px] px-3 font-normal bg-accent/5 border-border/50 shadow-sm hover:bg-accent/10 transition-all rounded-lg"
                     disabled={isLoading}
                   >
                     <span className="truncate">{country}</span>
-                    <ChevronsUpDown className="ml-1 h-3.5 w-3.5 shrink-0 opacity-40" />
+                    <ChevronsUpDown className="ml-1 h-3 w-3 shrink-0 opacity-40" />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0 shadow-2xl border-border/50 rounded-xl overflow-hidden" align="start">
+                <PopoverContent className="w-[180px] p-0 shadow-2xl border-border/50 rounded-xl overflow-hidden" align="start">
                   <Command>
-                    <CommandInput placeholder="Search country..." className="h-9 text-xs" />
-                    <CommandList className="max-h-[180px]">
-                      <CommandEmpty className="py-3 text-[10px] text-center text-muted-foreground">No country found.</CommandEmpty>
+                    <CommandInput placeholder="Search country..." className="h-8 text-[11px]" />
+                    <CommandList className="max-h-[150px]">
+                      <CommandEmpty className="py-2 text-[9px] text-center text-muted-foreground">No country found.</CommandEmpty>
                       <CommandGroup>
                         {COUNTRIES.map((c) => (
                           <CommandItem
@@ -176,11 +192,11 @@ const Signup = () => {
                               setCountry(currentValue);
                               setCountryOpen(false);
                             }}
-                            className="text-xs py-2 px-3 cursor-pointer"
+                            className="text-[11px] py-1.5 px-3 cursor-pointer"
                           >
                             <Check
                               className={cn(
-                                "mr-2 h-3.5 w-3.5 text-primary",
+                                "mr-2 h-3 w-3 text-primary",
                                 country === c ? "opacity-100" : "opacity-0"
                               )}
                             />
@@ -194,26 +210,26 @@ const Signup = () => {
               </Popover>
             </div>
 
-            <div className="space-y-1">
-              <Label className="text-[10px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Timezone</Label>
+            <div className="space-y-0.5">
+              <Label className="text-[9px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Timezone</Label>
               <Popover open={timezoneOpen} onOpenChange={setTimezoneOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     role="combobox"
                     aria-expanded={timezoneOpen}
-                    className="w-full h-9 justify-between text-xs px-3 font-normal bg-accent/5 border-border/50 shadow-sm hover:bg-accent/10 transition-all rounded-lg"
+                    className="w-full h-8 justify-between text-[11px] px-3 font-normal bg-accent/5 border-border/50 shadow-sm hover:bg-accent/10 transition-all rounded-lg"
                     disabled={isLoading}
                   >
                     <span className="truncate">{timezoneCode}</span>
-                    <ChevronsUpDown className="ml-1 h-3.5 w-3.5 shrink-0 opacity-40" />
+                    <ChevronsUpDown className="ml-1 h-3 w-3 shrink-0 opacity-40" />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0 shadow-2xl border-border/50 rounded-xl overflow-hidden" align="start">
+                <PopoverContent className="w-[180px] p-0 shadow-2xl border-border/50 rounded-xl overflow-hidden" align="start">
                   <Command>
-                    <CommandInput placeholder="Search timezone..." className="h-9 text-xs" />
-                    <CommandList className="max-h-[180px]">
-                      <CommandEmpty className="py-3 text-[10px] text-center text-muted-foreground">No timezone found.</CommandEmpty>
+                    <CommandInput placeholder="Search timezone..." className="h-8 text-[11px]" />
+                    <CommandList className="max-h-[150px]">
+                      <CommandEmpty className="py-2 text-[9px] text-center text-muted-foreground">No timezone found.</CommandEmpty>
                       <CommandGroup>
                         {TIMEZONES.map((tz) => (
                           <CommandItem
@@ -224,11 +240,11 @@ const Signup = () => {
                               setTimezoneCode(getTimezoneCode(currentValue));
                               setTimezoneOpen(false);
                             }}
-                            className="text-xs py-2 px-3 cursor-pointer"
+                            className="text-[11px] py-1.5 px-3 cursor-pointer"
                           >
                             <Check
                               className={cn(
-                                "mr-2 h-3.5 w-3.5 text-primary",
+                                "mr-2 h-3 w-3 text-primary",
                                 timezone === tz ? "opacity-100" : "opacity-0"
                               )}
                             />
@@ -243,17 +259,17 @@ const Signup = () => {
             </div>
           </div>
 
-          <div className="space-y-1">
-            <Label htmlFor="password" title="Password" className="text-[10px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Password</Label>
+          <div className="space-y-0.5">
+            <Label htmlFor="password" title="Password" className="text-[9px] font-bold text-foreground/80 ml-1 uppercase tracking-wider">Password</Label>
             <div className="relative group">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="pl-9 pr-9 h-9 text-xs bg-accent/5 border-border/50 focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all shadow-sm rounded-lg"
+                className="pl-9 pr-9 h-8 text-xs bg-accent/5 border-border/50 focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all shadow-sm rounded-lg"
                 required
                 disabled={isLoading}
               />
@@ -262,12 +278,12 @@ const Signup = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/40 hover:text-primary transition-colors focus:outline-none"
               >
-                {showPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                {showPassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
               </button>
             </div>
           </div>
 
-          <Button type="submit" className="w-full h-9 text-xs font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 active:scale-[0.98] transition-all duration-200 mt-1 rounded-lg bg-primary hover:bg-primary/90" disabled={isLoading}>
+          <Button type="submit" className="w-full h-8 text-xs font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 active:scale-[0.98] transition-all duration-200 mt-0.5 rounded-lg bg-primary hover:bg-primary/90" disabled={isLoading}>
             {isLoading ? (
               <div className="flex items-center gap-2">
                 <Loader size="sm" />
@@ -277,7 +293,7 @@ const Signup = () => {
           </Button>
         </form>
 
-        <p className="text-center text-[11px] text-muted-foreground pt-1">
+        <p className="text-center text-[10px] text-muted-foreground pt-0.5">
           Already have an account?{" "}
           <Link to="/login" className="text-primary hover:text-primary/80 transition-colors font-bold underline-offset-4 hover:underline">
             Log in

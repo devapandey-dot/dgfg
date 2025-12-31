@@ -44,7 +44,6 @@ const navigation = [
   { name: "Channels", href: "/channels", icon: Globe },
   { name: "Content", href: "/content", icon: Layers },
   { name: "Posts", href: "/posts", icon: Send },
-  { name: "Social Media", href: "/social", icon: Share2 },
   { name: "Media Library", href: "/media", icon: Image },
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
   { name: "Team", href: "/team", icon: Users },

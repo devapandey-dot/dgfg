@@ -46,8 +46,12 @@ export const userService = {
 
   updateRole: async (userId: number | string, roleId: number | string): Promise<ApiResponse<{ message: string }>> => {
     try {
-      const response = await api.put<ApiResponse<{ message: string }>>(`/users/${userId}/role`, { role_id: roleId });
-      return response.data;
+      const response = await api.put<any>(`/users/${userId}/role`, { role_id: roleId });
+      return {
+        success: true,
+        data: response.data,
+        message: response.data.message
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -58,8 +62,12 @@ export const userService = {
 
   remove: async (userId: number | string): Promise<ApiResponse<{ message: string }>> => {
     try {
-      const response = await api.delete<ApiResponse<{ message: string }>>(`/users/${userId}`);
-      return response.data;
+      const response = await api.delete<any>(`/users/${userId}`);
+      return {
+        success: true,
+        data: response.data,
+        message: response.data.message
+      };
     } catch (error: any) {
       return {
         success: false,

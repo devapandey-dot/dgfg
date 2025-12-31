@@ -10,6 +10,7 @@ import { mediaService, MediaAssetItem, MediaListResponse } from "@/services/medi
 import { uploadService } from "@/services/upload.service";
 import { Upload, Trash2, Image as ImageIcon, Search, Filter, ChevronDown } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import Loader from "@/components/ui/loader";
 
 const Media = () => {
   const { toast } = useToast();
@@ -20,6 +21,7 @@ const Media = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<string>("created_at");
   const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("DESC");
+  const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerAsset, setViewerAsset] = useState<MediaAssetItem | null>(null);
@@ -27,14 +29,19 @@ const Media = () => {
   const queryParams = useMemo(() => ({ page, limit, sort_by: sortBy, sort_order: sortOrder, search: searchQuery.trim() || undefined }), [page, limit, sortBy, sortOrder, searchQuery]);
 
   const loadAssets = async () => {
-    const res = await mediaService.list(queryParams);
-    if (res.success) {
-      const list = Array.isArray(res.data) ? (res.data as any[]) : (res.data?.data ?? []);
-      const metaFrom = Array.isArray(res.data) ? (res as any).meta : (res.data?.meta ?? (res as any).meta);
-      setAssets(list ?? []);
-      if (metaFrom) setMeta(metaFrom);
-    } else {
-      toast({ title: "Failed to load media", description: res.error || "Unknown error", variant: "destructive" });
+    try {
+      setIsLoading(true);
+      const res = await mediaService.list(queryParams);
+      if (res.success) {
+        const list = Array.isArray(res.data) ? (res.data as any[]) : (res.data?.data ?? []);
+        const metaFrom = Array.isArray(res.data) ? (res as any).meta : (res.data?.meta ?? (res as any).meta);
+        setAssets(list ?? []);
+        if (metaFrom) setMeta(metaFrom);
+      } else {
+        toast({ title: "Failed to load media", description: res.error || "Unknown error", variant: "destructive" });
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -151,9 +158,13 @@ const Media = () => {
         </div>
 
         {/* Grid */}
-        <div className="bg-card rounded-xl border border-border shadow-card p-4">
-          {assets.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
+        <div className="bg-card rounded-xl border border-border shadow-card p-4 min-h-[400px] flex flex-col">
+          {isLoading ? (
+            <div className="flex-1 flex items-center justify-center">
+              <Loader showText text="Loading media assets..." size="lg" />
+            </div>
+          ) : assets.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
               <ImageIcon className="h-12 w-12 mb-3" />
               <p>No media found</p>
               <p className="text-xs">Upload files to build your library.</p>

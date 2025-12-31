@@ -4,8 +4,11 @@ import { ApiResponse, TenantResponse, TenantItem } from '@/types/api.types';
 export const tenantService = {
   get: async (id: number | string): Promise<ApiResponse<TenantResponse>> => {
     try {
-      const response = await api.get<ApiResponse<TenantResponse>>(`/tenants/${id}`);
-      return response.data;
+      const response = await api.get<any>(`/tenants/${id}`);
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -19,8 +22,11 @@ export const tenantService = {
     data: Partial<Pick<TenantItem, 'name' | 'domain' | 'timezone' | 'country' | 'logo'>>
   ): Promise<ApiResponse<TenantResponse>> => {
     try {
-      const response = await api.put<ApiResponse<TenantResponse>>(`/tenants/${id}`, data);
-      return response.data;
+      const response = await api.put<any>(`/tenants/${id}`, data);
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -38,8 +44,11 @@ export const tenantService = {
     admin_password?: string;
   }): Promise<ApiResponse<any>> => {
     try {
-      const response = await api.post<ApiResponse<any>>('/tenants/subtenant', data);
-      return response.data;
+      const response = await api.post<any>('/tenants/subtenant', data);
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,

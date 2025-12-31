@@ -14,12 +14,15 @@ export const uploadService = {
     try {
       const form = new FormData();
       form.append('file', file);
-      const response = await api.post<ApiResponse<UploadResult>>('/upload', form, {
+      const response = await api.post<any>('/upload', form, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      return response.data;
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -30,8 +33,11 @@ export const uploadService = {
 
   info: async (): Promise<ApiResponse<{ hasS3?: boolean }>> => {
     try {
-      const response = await api.get<ApiResponse<{ hasS3?: boolean }>>('/upload/info');
-      return response.data;
+      const response = await api.get<any>('/upload/info');
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,

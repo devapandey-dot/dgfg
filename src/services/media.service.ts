@@ -47,8 +47,16 @@ export const mediaService = {
       if (Array.isArray(queryParams.tags)) {
         queryParams.tags = queryParams.tags.join(',');
       }
-      const response = await api.get<ApiResponse<MediaListResponse>>('/media/assets', { params: queryParams });
-      return response.data;
+      const response = await api.get<any>('/media/assets', { params: queryParams });
+      
+      // Normalize response to ensure consistency
+      const data = response.data.data || response.data;
+      const meta = response.data.meta || response.meta;
+
+      return {
+        success: true,
+        data: Array.isArray(data) ? { data, meta } : data
+      } as ApiResponse<MediaListResponse>;
     } catch (error: any) {
       return {
         success: false,
@@ -69,8 +77,11 @@ export const mediaService = {
     rights_expiry?: string | null;
   }): Promise<ApiResponse<{ asset: MediaAssetItem }>> => {
     try {
-      const response = await api.post<ApiResponse<{ asset: MediaAssetItem }>>('/media/assets', data);
-      return response.data;
+      const response = await api.post<any>('/media/assets', data);
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -81,8 +92,11 @@ export const mediaService = {
 
   get: async (assetId: number | string): Promise<ApiResponse<{ asset: MediaAssetItem }>> => {
     try {
-      const response = await api.get<ApiResponse<{ asset: MediaAssetItem }>>(`/media/assets/${assetId}`);
-      return response.data;
+      const response = await api.get<any>(`/media/assets/${assetId}`);
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -101,8 +115,11 @@ export const mediaService = {
     }
   ): Promise<ApiResponse<{ asset: MediaAssetItem }>> => {
     try {
-      const response = await api.put<ApiResponse<{ asset: MediaAssetItem }>>(`/media/assets/${assetId}`, data);
-      return response.data;
+      const response = await api.patch<any>(`/media/assets/${assetId}`, data);
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -111,10 +128,10 @@ export const mediaService = {
     }
   },
 
-  delete: async (assetId: number | string): Promise<ApiResponse<{ success: boolean }>> => {
+  delete: async (assetId: number | string): Promise<ApiResponse> => {
     try {
-      const response = await api.delete<ApiResponse<{ success: boolean }>>(`/media/assets/${assetId}`);
-      return response.data;
+      await api.delete(`/media/assets/${assetId}`);
+      return { success: true };
     } catch (error: any) {
       return {
         success: false,

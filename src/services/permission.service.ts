@@ -11,8 +11,11 @@ export interface UserPermissionsDetails {
 export const permissionService = {
   details: async (userId: number | string): Promise<ApiResponse<UserPermissionsDetails>> => {
     try {
-      const response = await api.get<ApiResponse<UserPermissionsDetails>>(`/user-permissions/${userId}`);
-      return response.data;
+      const response = await api.get<any>(`/user-permissions/${userId}`);
+      return {
+        success: true,
+        data: response.data.data || response.data
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -23,8 +26,12 @@ export const permissionService = {
 
   add: async (userId: number | string, permission_code: string): Promise<ApiResponse<{ message?: string }>> => {
     try {
-      const response = await api.post<ApiResponse<{ message?: string }>>(`/user-permissions/${userId}/permissions`, { permission_code });
-      return response.data;
+      const response = await api.post<any>(`/user-permissions/${userId}/permissions`, { permission_code });
+      return {
+        success: true,
+        data: response.data,
+        message: response.data.message
+      };
     } catch (error: any) {
       return {
         success: false,
@@ -35,8 +42,12 @@ export const permissionService = {
 
   remove: async (userId: number | string, permission_code: string): Promise<ApiResponse<{ message?: string }>> => {
     try {
-      const response = await api.delete<ApiResponse<{ message?: string }>>(`/user-permissions/${userId}/permissions`, { data: { permission_code } });
-      return response.data;
+      const response = await api.delete<any>(`/user-permissions/${userId}/permissions`, { data: { permission_code } });
+      return {
+        success: true,
+        data: response.data,
+        message: response.data.message
+      };
     } catch (error: any) {
       return {
         success: false,
